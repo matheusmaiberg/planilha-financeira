@@ -9,7 +9,7 @@ Suevich.Core.Config = (function() {
   'use strict';
 
   var _config = {
-    WISE_API_TOKEN: '0dd9a8f2-7873-4c41-b107-ff052164eef2',
+    WISE_API_TOKEN: 'SEU_WISE_API_TOKEN_AQUI',
     PROFILE_ID: '3903096',
     DAYS_TO_SYNC: 30,
 

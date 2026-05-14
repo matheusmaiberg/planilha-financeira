@@ -52,6 +52,6 @@ function clearAllTriggers() {
   Suevich.UI.TriggerManager.clearTriggers('syncAllWiseAccounts');
 }
 
-function syncAllWiseAccounts(days) {
-  return Suevich.Main.SyncPipeline.run(days);
+function syncAllWiseAccounts() {
+  return Suevich.Main.SyncPipeline.run();
 }

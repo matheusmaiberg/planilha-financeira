@@ -11,7 +11,7 @@ Suevich.Strategies.DirectionContext = (function() {
   var _customStrategies = null;
 
   function _getStrategies() {
-    if (_customStrategies) return _customStrategies;
+    if (_customStrategies !== null) return _customStrategies;
     return [
       Suevich.Strategies.TypeDirectionStrategy,
       Suevich.Strategies.TitleDirectionStrategy,
@@ -28,7 +28,6 @@ Suevich.Strategies.DirectionContext = (function() {
     resolve: function(activity) {
       var strategies = _getStrategies();
       for (var i = 0; i < strategies.length; i++) {
-        if (!strategies[i]) continue;
         var result = strategies[i].resolve(activity);
         if (result) return result;
       }

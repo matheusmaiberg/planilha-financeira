@@ -8,8 +8,6 @@ Suevich.Utils = Suevich.Utils || {};
 Suevich.Utils.DateUtils = (function() {
   'use strict';
 
-  var _config = Suevich.Core.Config;
-
   return {
     /**
      * Converte ISO string para formato brasileiro.
@@ -19,7 +17,7 @@ Suevich.Utils.DateUtils = (function() {
     formatDateBR: function(isoDateString) {
       if (!isoDateString) return '';
       var dateObj = new Date(isoDateString);
-      return Utilities.formatDate(dateObj, Session.getScriptTimeZone(), _config.get('FORMATS').DATE);
+      return Utilities.formatDate(dateObj, Session.getScriptTimeZone(), Suevich.Core.Config.get('FORMATS').DATE);
     },
 
     /**
