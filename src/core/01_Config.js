@@ -46,7 +46,8 @@ Suevich.Core.Config = (function() {
 
   return {
     get: function(key) {
-      return _config[key];
+      var val = _config[key];
+      return (typeof val === 'object' && val !== null) ? JSON.parse(JSON.stringify(val)) : val;
     },
     getAll: function() {
       return JSON.parse(JSON.stringify(_config));

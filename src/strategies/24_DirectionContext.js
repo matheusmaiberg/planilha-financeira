@@ -30,6 +30,14 @@ Suevich.Strategies.DirectionContext = (function() {
      * @param {Array} customStrategies
      */
     setStrategies: function(customStrategies) {
+      if (!Array.isArray(customStrategies)) {
+        throw new Error('DirectionContext.setStrategies espera um array');
+      }
+      customStrategies.forEach(function(s, i) {
+        if (!s || typeof s.resolve !== 'function') {
+          throw new Error('Strategy no índice ' + i + ' não implementa resolve()');
+        }
+      });
       _strategies = customStrategies;
     }
   };

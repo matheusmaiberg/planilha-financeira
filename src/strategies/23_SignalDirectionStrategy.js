@@ -12,6 +12,9 @@ Suevich.Strategies.SignalDirectionStrategy = (function() {
     resolve: function(activity) {
       var rawAmount = activity.primaryAmount || activity.sourceAmount || '';
       if (_currencyUtils.isNegative(rawAmount)) return _Direction.SAIDA;
+      if (rawAmount && parseFloat(rawAmount.replace(/[^\d.,-]/g, '').replace(',', '.')) > 0) {
+        return _Direction.ENTRADA;
+      }
       return null;
     }
   };

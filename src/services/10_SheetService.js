@@ -71,18 +71,22 @@ Suevich.Services.SheetService = (function() {
 
       if (newData.length === 0) return 0;
 
+      var rowFormatter = Suevich.Factories.Registry.getFormatter('sheetRow');
+      var outputRows = rowFormatter.toMatrix(newData);
+
       var maxCol = 0;
       for (var k in colMap) { if (colMap[k] > maxCol) maxCol = colMap[k]; }
 
-      var outputRows = newData.map(function(tx) {
+      // Garante que cada linha tenha o tamanho correto
+      outputRows = outputRows.map(function(row) {
         var line = new Array(maxCol);
-        line[colMap.DATA - 1] = tx.getDate();
-        line[colMap.SERVICO - 1] = tx.getService();
-        line[colMap.CATEGORIA - 1] = tx.getCategory();
-        line[colMap.MOEDA - 1] = tx.getCurrency();
-        line[colMap.VALOR - 1] = tx.getAmount();
-        line[colMap.TIPO - 1] = tx.getDirection();
-        line[colMap.ID_TRANSACAO - 1] = tx.getId();
+        line[colMap.DATA - 1] = row[0];
+        line[colMap.SERVICO - 1] = row[1];
+        line[colMap.CATEGORIA - 1] = row[2];
+        line[colMap.MOEDA - 1] = row[3];
+        line[colMap.VALOR - 1] = row[4];
+        line[colMap.TIPO - 1] = row[5];
+        line[colMap.ID_TRANSACAO - 1] = row[6];
 
         for (var i = 0; i < maxCol; i++) {
           if (line[i] === undefined || line[i] === null) line[i] = '';

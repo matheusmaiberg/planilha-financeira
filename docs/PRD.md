@@ -13,7 +13,7 @@ Sistema serverless (Google Apps Script) que extrai transações da API Wise e as
 | RF04 | Evitar duplicatas via ID único da transação | P0 |
 | RF05 | Suportar sincronização histórica (30/60/90 dias) | P1 |
 | RF06 | Executar automaticamente diariamente às 04:00 | P1 |
-| RF07 | Menu customizado na planilha | P1 |
+| RF07 | Menu customizado na planilha (Builder Pattern) | P1 |
 | RF08 | Aceitar **todas** as transações (entradas e saídas) | P0 |
 | RF09 | Criar cabeçalhos automaticamente se ausentes | P1 |
 | RF10 | Formatar moeda e data no padrão brasileiro | P1 |
@@ -49,7 +49,7 @@ Suevich
 - `TransactionFactory`: cria Value Objects `Transaction`
 - `ServiceFactory`: cria e memoiza serviços (singleton)
 - `FormatterFactory`: cria formatters especializados
-- `FactoryRegistry`: ponto único de acesso a todas as factories
+- `FactoryRegistry` (`Suevich.Factories.Registry`): ponto único de acesso a todas as factories
 
 ### 4.2 Strategy Pattern
 - `DirectionStrategy`: interface base
