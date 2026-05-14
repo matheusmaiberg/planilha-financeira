@@ -11,23 +11,28 @@ Suevich.Services.WiseApiService = (function() {
   return {
     /**
      * Busca atividades paginadas do perfil configurado.
-     * @param {number} customLimit
+     * Usa since/until para filtrar diretamente na API.
+     * @param {number} days
      * @returns {Array} Atividades brutas da API
      */
-    getActivities: function(customLimit) {
+    getActivities: function(days) {
       var allActivities = [];
       var seenIds = {};
       var cursor = null;
-      var targetLimit = customLimit || 100;
       var maxPages = 100;
       var pageCount = 0;
 
-      Suevich.Core.Logger.info('WiseApiService: iniciando busca paginada');
+      var now = new Date();
+      var since = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
+      var sinceIso = since.toISOString();
+      var untilIso = now.toISOString();
+
+      Suevich.Core.Logger.info('WiseApiService: busca de ' + days + ' dias (since=' + sinceIso + ', until=' + untilIso + ')');
 
       do {
-        var url = 'https://api.transferwise.com/v1/profiles/' + Suevich.Core.Config.get('PROFILE_ID') + '/activities?limit=100';
+        var url = 'https://api.transferwise.com/v1/profiles/' + Suevich.Core.Config.get('PROFILE_ID') + '/activities?size=100&since=' + encodeURIComponent(sinceIso) + '&until=' + encodeURIComponent(untilIso);
         if (cursor) {
-          url += '&cursor=' + encodeURIComponent(cursor);
+          url += '&nextCursor=' + encodeURIComponent(cursor);
         }
 
         var options = {
@@ -61,13 +66,13 @@ Suevich.Services.WiseApiService = (function() {
           }
         });
 
-        cursor = data.cursor;
+        cursor = data.nextCursor;
         pageCount++;
 
         if (pageCount % 5 === 0) {
           Suevich.Core.Logger.info('WiseApiService: página ' + pageCount + ' processada, total=' + allActivities.length);
         }
-      } while (cursor && allActivities.length < targetLimit && pageCount < maxPages);
+      } while (cursor && pageCount < maxPages);
 
       Suevich.Core.Logger.info('WiseApiService: busca concluída com ' + allActivities.length + ' atividades');
       return allActivities;

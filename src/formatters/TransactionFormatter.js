@@ -23,7 +23,7 @@ Suevich.Formatters.TransactionFormatter = (function() {
 
       return activities
         .filter(function(a) {
-          var dateStr = a.createdOn || a.updatedOn || new Date().toISOString();
+          var dateStr = a.createdAt || a.createdOn || a.updatedOn || new Date().toISOString();
           return new Date(dateStr) >= cutoff;
         })
         .map(function(a) {

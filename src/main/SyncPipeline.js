@@ -18,10 +18,8 @@ Suevich.Main.SyncPipeline = (function() {
       var syncDays = days || Suevich.Core.Config.get('DAYS_TO_SYNC');
       Suevich.Core.Logger.info('SyncPipeline: iniciando sincronização para ' + syncDays + ' dias');
 
-      var apiLimit = syncDays <= 30 ? 100 : (syncDays <= 60 ? 250 : 500);
-
       var wiseApi = Suevich.Factories.Registry.getService('wiseApi');
-      var rawData = wiseApi.getActivities(apiLimit);
+      var rawData = wiseApi.getActivities(syncDays);
       Suevich.Core.Logger.info('SyncPipeline: ' + rawData.length + ' atividades brutas recebidas');
 
       var txFormatter = Suevich.Factories.Registry.getFormatter('transaction');
