@@ -1,0 +1,102 @@
+/**
+ * @fileoverview Serviço de leitura/escrita na planilha Google Sheets.
+ */
+
+Suevich.Services.SheetService = (function() {
+  'use strict';
+
+  var _config = Suevich.Core.Config;
+  var _logger = Suevich.Core.Logger;
+
+  function _getOrUpdateColumnMap(sheet) {
+    var lastCol = Math.max(sheet.getLastColumn(), 1);
+    var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+    var map = {};
+    var needsUpdate = false;
+    var expected = _config.get('HEADERS');
+
+    for (var key in expected) {
+      var expectedName = expected[key];
+      var index = headers.map(function(h) {
+        return String(h).trim().toLowerCase();
+      }).indexOf(expectedName.toLowerCase());
+
+      if (index === -1) {
+        var newColIndex = headers.length + 1;
+        sheet.getRange(1, newColIndex)
+          .setValue(expectedName)
+          .setFontWeight(_config.get('STYLES').HEADER_WEIGHT)
+          .setBackground(_config.get('STYLES').HEADER_BG);
+        headers.push(expectedName);
+        map[key] = newColIndex;
+        needsUpdate = true;
+      } else {
+        map[key] = index + 1;
+      }
+    }
+    if (needsUpdate) sheet.autoResizeColumns(1, sheet.getLastColumn());
+    return map;
+  }
+
+  function _getExistingIds(sheet, colIndex) {
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) return [];
+    var values = sheet.getRange(2, colIndex, lastRow - 1, 1).getDisplayValues();
+    return values.map(function(row) { return String(row[0]).trim(); });
+  }
+
+  return {
+    /**
+     * Anexa transações à planilha ativa, filtrando duplicatas.
+     * @param {Suevich.Domain.Transaction[]} transactions
+     * @returns {number} Quantidade adicionada
+     */
+    appendTransactions: function(transactions) {
+      if (!transactions || transactions.length === 0) return 0;
+
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var colMap = _getOrUpdateColumnMap(sheet);
+      var existingIds = _getExistingIds(sheet, colMap.ID_TRANSACAO);
+
+      var newData = [];
+      var loteIds = {};
+
+      transactions.forEach(function(tx) {
+        var id = String(tx.getId()).trim();
+        if (existingIds.indexOf(id) === -1 && !loteIds[id]) {
+          loteIds[id] = true;
+          newData.push(tx);
+        }
+      });
+
+      if (newData.length === 0) return 0;
+
+      var maxCol = 0;
+      for (var k in colMap) { if (colMap[k] > maxCol) maxCol = colMap[k]; }
+
+      var outputRows = newData.map(function(tx) {
+        var line = new Array(maxCol);
+        line[colMap.DATA - 1] = tx.getDate();
+        line[colMap.SERVICO - 1] = tx.getService();
+        line[colMap.CATEGORIA - 1] = tx.getCategory();
+        line[colMap.MOEDA - 1] = tx.getCurrency();
+        line[colMap.VALOR - 1] = tx.getAmount();
+        line[colMap.TIPO - 1] = tx.getDirection();
+        line[colMap.ID_TRANSACAO - 1] = tx.getId();
+
+        for (var i = 0; i < maxCol; i++) {
+          if (line[i] === undefined || line[i] === null) line[i] = '';
+        }
+        return line;
+      });
+
+      var startRow = sheet.getLastRow() + 1;
+      sheet.getRange(startRow, 1, outputRows.length, maxCol).setValues(outputRows);
+      sheet.getRange(startRow, colMap.VALOR, outputRows.length, 1)
+        .setNumberFormat(_config.get('FORMATS').CURRENCY);
+
+      _logger.info('SheetService: ' + newData.length + ' transações adicionadas.');
+      return newData.length;
+    }
+  };
+})();
