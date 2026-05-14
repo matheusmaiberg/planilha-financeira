@@ -2,6 +2,9 @@
  * @fileoverview Orquestração do fluxo de sincronização via Factory Registry.
  */
 
+var Suevich = Suevich || {};
+Suevich.Main = Suevich.Main || {};
+
 Suevich.Main.SyncPipeline = (function() {
   'use strict';
 

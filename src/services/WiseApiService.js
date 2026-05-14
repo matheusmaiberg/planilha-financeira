@@ -2,6 +2,9 @@
  * @fileoverview Cliente HTTP para a API Wise (v1).
  */
 
+var Suevich = Suevich || {};
+Suevich.Services = Suevich.Services || {};
+
 Suevich.Services.WiseApiService = (function() {
   'use strict';
 

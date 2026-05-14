@@ -2,6 +2,9 @@
  * @fileoverview Formata atividades brutas da Wise em Transaction VOs.
  */
 
+var Suevich = Suevich || {};
+Suevich.Formatters = Suevich.Formatters || {};
+
 Suevich.Formatters.TransactionFormatter = (function() {
   'use strict';
 

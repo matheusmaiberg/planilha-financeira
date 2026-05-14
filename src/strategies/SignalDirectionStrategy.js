@@ -2,6 +2,9 @@
  * @fileoverview Resolve direção pelo sinal do valor bruto.
  */
 
+var Suevich = Suevich || {};
+Suevich.Strategies = Suevich.Strategies || {};
+
 Suevich.Strategies.SignalDirectionStrategy = (function() {
   'use strict';
 

@@ -2,6 +2,9 @@
  * @fileoverview Serviço puro de classificação de categorias por keyword.
  */
 
+var Suevich = Suevich || {};
+Suevich.Services = Suevich.Services || {};
+
 Suevich.Services.CategoryClassifier = (function() {
   'use strict';
 

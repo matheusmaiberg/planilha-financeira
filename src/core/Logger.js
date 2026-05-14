@@ -2,6 +2,9 @@
  * @fileoverview Wrapper do Logger nativo com níveis semânticos.
  */
 
+var Suevich = Suevich || {};
+Suevich.Core = Suevich.Core || {};
+
 Suevich.Core.Logger = (function() {
   'use strict';
 

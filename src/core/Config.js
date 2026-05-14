@@ -2,6 +2,9 @@
  * @fileoverview Configuração central imutável do sistema.
  */
 
+var Suevich = Suevich || {};
+Suevich.Core = Suevich.Core || {};
+
 Suevich.Core.Config = (function() {
   'use strict';
 

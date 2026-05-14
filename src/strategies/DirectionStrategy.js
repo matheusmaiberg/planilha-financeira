@@ -2,6 +2,9 @@
  * @fileoverview Interface base para estratégias de detecção de direção.
  */
 
+var Suevich = Suevich || {};
+Suevich.Strategies = Suevich.Strategies || {};
+
 Suevich.Strategies.DirectionStrategy = (function() {
   'use strict';
 

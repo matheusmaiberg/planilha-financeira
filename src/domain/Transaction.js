@@ -2,6 +2,9 @@
  * @fileoverview Value Object imutável representando uma transação financeira.
  */
 
+var Suevich = Suevich || {};
+Suevich.Domain = Suevich.Domain || {};
+
 Suevich.Domain.Transaction = (function() {
   'use strict';
 

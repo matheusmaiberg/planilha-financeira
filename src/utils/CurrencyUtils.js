@@ -2,6 +2,9 @@
  * @fileoverview Utilitários de moeda e valores numéricos.
  */
 
+var Suevich = Suevich || {};
+Suevich.Utils = Suevich.Utils || {};
+
 Suevich.Utils.CurrencyUtils = (function() {
   'use strict';
 

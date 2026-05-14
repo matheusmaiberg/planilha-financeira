@@ -2,6 +2,9 @@
  * @fileoverview Factory memoizada para serviços (singleton por sessão).
  */
 
+var Suevich = Suevich || {};
+Suevich.Factories = Suevich.Factories || {};
+
 Suevich.Factories.ServiceFactory = (function() {
   'use strict';
 

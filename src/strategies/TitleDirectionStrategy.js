@@ -2,6 +2,9 @@
  * @fileoverview Resolve direção por keywords no título da transação.
  */
 
+var Suevich = Suevich || {};
+Suevich.Strategies = Suevich.Strategies || {};
+
 Suevich.Strategies.TitleDirectionStrategy = (function() {
   'use strict';
 

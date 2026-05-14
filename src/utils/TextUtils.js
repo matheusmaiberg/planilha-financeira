@@ -2,6 +2,9 @@
  * @fileoverview Utilitários de processamento de texto.
  */
 
+var Suevich = Suevich || {};
+Suevich.Utils = Suevich.Utils || {};
+
 Suevich.Utils.TextUtils = (function() {
   'use strict';
 

@@ -2,6 +2,9 @@
  * @fileoverview Enum de tipos de transação retornados pela API Wise.
  */
 
+var Suevich = Suevich || {};
+Suevich.Domain = Suevich.Domain || {};
+
 Suevich.Domain.TransactionType = (function() {
   'use strict';
 

@@ -3,6 +3,9 @@
  * Implementa o padrão Service Locator + Abstract Factory.
  */
 
+var Suevich = Suevich || {};
+Suevich.Factories = Suevich.Factories || {};
+
 Suevich.Factories.Registry = (function() {
   'use strict';
 

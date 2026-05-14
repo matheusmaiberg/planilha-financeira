@@ -2,6 +2,9 @@
  * @fileoverview Serviço de leitura/escrita na planilha Google Sheets.
  */
 
+var Suevich = Suevich || {};
+Suevich.Services = Suevich.Services || {};
+
 Suevich.Services.SheetService = (function() {
   'use strict';
 

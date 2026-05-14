@@ -2,6 +2,9 @@
  * @fileoverview Formata Transaction VOs em arrays para escrita na planilha.
  */
 
+var Suevich = Suevich || {};
+Suevich.Formatters = Suevich.Formatters || {};
+
 Suevich.Formatters.SheetRowFormatter = (function() {
   'use strict';
 

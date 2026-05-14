@@ -2,6 +2,9 @@
  * @fileoverview Utilitários de data e timezone.
  */
 
+var Suevich = Suevich || {};
+Suevich.Utils = Suevich.Utils || {};
+
 Suevich.Utils.DateUtils = (function() {
   'use strict';
 

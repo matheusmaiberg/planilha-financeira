@@ -2,6 +2,9 @@
  * @fileoverview Factory para criação de Value Objects Transaction.
  */
 
+var Suevich = Suevich || {};
+Suevich.Factories = Suevich.Factories || {};
+
 Suevich.Factories.TransactionFactory = (function() {
   'use strict';
 

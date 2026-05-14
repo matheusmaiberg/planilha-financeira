@@ -2,6 +2,9 @@
  * @fileoverview Utilitários para manipulação de arrays.
  */
 
+var Suevich = Suevich || {};
+Suevich.Utils = Suevich.Utils || {};
+
 Suevich.Utils.ArrayUtils = (function() {
   'use strict';
 

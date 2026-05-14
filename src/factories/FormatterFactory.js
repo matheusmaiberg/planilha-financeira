@@ -2,6 +2,9 @@
  * @fileoverview Factory para criação de formatters especializados.
  */
 
+var Suevich = Suevich || {};
+Suevich.Factories = Suevich.Factories || {};
+
 Suevich.Factories.FormatterFactory = (function() {
   'use strict';
 

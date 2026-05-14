@@ -2,6 +2,9 @@
  * @fileoverview Gerenciamento CRUD de triggers do Apps Script.
  */
 
+var Suevich = Suevich || {};
+Suevich.UI = Suevich.UI || {};
+
 Suevich.UI.TriggerManager = (function() {
   'use strict';
 

@@ -2,6 +2,9 @@
  * @fileoverview Resolve direção pelo tipo Wise conhecido.
  */
 
+var Suevich = Suevich || {};
+Suevich.Strategies = Suevich.Strategies || {};
+
 Suevich.Strategies.TypeDirectionStrategy = (function() {
   'use strict';
 

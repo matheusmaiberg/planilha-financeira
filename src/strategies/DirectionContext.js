@@ -2,6 +2,9 @@
  * @fileoverview Contexto que orquestra a chain of responsibility de strategies.
  */
 
+var Suevich = Suevich || {};
+Suevich.Strategies = Suevich.Strategies || {};
+
 Suevich.Strategies.DirectionContext = (function() {
   'use strict';
 

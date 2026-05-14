@@ -2,6 +2,9 @@
  * @fileoverview Builder Pattern para construção de menus customizados.
  */
 
+var Suevich = Suevich || {};
+Suevich.UI = Suevich.UI || {};
+
 Suevich.UI.MenuBuilder = (function() {
   'use strict';
 
