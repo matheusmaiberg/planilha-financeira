@@ -5,8 +5,6 @@
 Suevich.Formatters.TransactionFormatter = (function() {
   'use strict';
 
-  var _registry = Suevich.Factories.Registry;
-
   return {
     /**
      * Formata um array de atividades brutas em Transaction VOs.
@@ -19,7 +17,6 @@ Suevich.Formatters.TransactionFormatter = (function() {
       if (!activities || activities.length === 0) return [];
 
       var cutoff = Suevich.Utils.DateUtils.getCutoffDate(days);
-      var txFactory = _registry.createTransaction;
 
       return activities
         .filter(function(a) {
@@ -27,7 +24,7 @@ Suevich.Formatters.TransactionFormatter = (function() {
           return new Date(dateStr) >= cutoff;
         })
         .map(function(a) {
-          return txFactory(a);
+          return Suevich.Factories.Registry.createTransaction(a);
         });
     }
   };

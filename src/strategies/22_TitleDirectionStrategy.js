@@ -5,8 +5,6 @@
 Suevich.Strategies.TitleDirectionStrategy = (function() {
   'use strict';
 
-  var _Direction = Suevich.Domain.TransactionDirection;
-
   var ENTRADA_KEYWORDS = ['received', 'recebido', 'deposit', 'cashback', 'refund', 'devolução', 'crédito', 'credit', 'money added', 'adicionado'];
   var SAIDA_KEYWORDS = ['sent', 'enviado', 'payment', 'pagamento', 'debit', 'débito', 'withdrawal', 'saque', 'transfer sent'];
 
@@ -14,8 +12,8 @@ Suevich.Strategies.TitleDirectionStrategy = (function() {
     resolve: function(activity) {
       var title = (activity.title || '').toLowerCase();
 
-      if (Suevich.Utils.TextUtils.containsAny(title, ENTRADA_KEYWORDS)) return _Direction.ENTRADA;
-      if (Suevich.Utils.TextUtils.containsAny(title, SAIDA_KEYWORDS)) return _Direction.SAIDA;
+      if (Suevich.Utils.TextUtils.containsAny(title, ENTRADA_KEYWORDS)) return Suevich.Domain.TransactionDirection.ENTRADA;
+      if (Suevich.Utils.TextUtils.containsAny(title, SAIDA_KEYWORDS)) return Suevich.Domain.TransactionDirection.SAIDA;
       return null;
     }
   };

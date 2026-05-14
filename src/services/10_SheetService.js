@@ -5,15 +5,12 @@
 Suevich.Services.SheetService = (function() {
   'use strict';
 
-  var _config = Suevich.Core.Config;
-  var _logger = Suevich.Core.Logger;
-
   function _getOrUpdateColumnMap(sheet) {
     var lastCol = Math.max(sheet.getLastColumn(), 1);
     var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
     var map = {};
     var needsUpdate = false;
-    var expected = _config.get('HEADERS');
+    var expected = Suevich.Core.Config.get('HEADERS');
 
     for (var key in expected) {
       var expectedName = expected[key];
@@ -25,8 +22,8 @@ Suevich.Services.SheetService = (function() {
         var newColIndex = headers.length + 1;
         sheet.getRange(1, newColIndex)
           .setValue(expectedName)
-          .setFontWeight(_config.get('STYLES').HEADER_WEIGHT)
-          .setBackground(_config.get('STYLES').HEADER_BG);
+          .setFontWeight(Suevich.Core.Config.get('STYLES').HEADER_WEIGHT)
+          .setBackground(Suevich.Core.Config.get('STYLES').HEADER_BG);
         headers.push(expectedName);
         map[key] = newColIndex;
         needsUpdate = true;
@@ -77,7 +74,6 @@ Suevich.Services.SheetService = (function() {
       var maxCol = 0;
       for (var k in colMap) { if (colMap[k] > maxCol) maxCol = colMap[k]; }
 
-      // Garante que cada linha tenha o tamanho correto
       outputRows = outputRows.map(function(row) {
         var line = new Array(maxCol);
         line[colMap.DATA - 1] = row[0];
@@ -97,9 +93,9 @@ Suevich.Services.SheetService = (function() {
       var startRow = sheet.getLastRow() + 1;
       sheet.getRange(startRow, 1, outputRows.length, maxCol).setValues(outputRows);
       sheet.getRange(startRow, colMap.VALOR, outputRows.length, 1)
-        .setNumberFormat(_config.get('FORMATS').CURRENCY);
+        .setNumberFormat(Suevich.Core.Config.get('FORMATS').CURRENCY);
 
-      _logger.info('SheetService: ' + newData.length + ' transações adicionadas.');
+      Suevich.Core.Logger.info('SheetService: ' + newData.length + ' transações adicionadas.');
       return newData.length;
     }
   };

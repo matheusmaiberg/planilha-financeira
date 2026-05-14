@@ -5,28 +5,22 @@
 Suevich.Factories.TransactionFactory = (function() {
   'use strict';
 
-  var _Transaction = Suevich.Domain.Transaction;
-  var _dateUtils = Suevich.Utils.DateUtils;
-  var _currencyUtils = Suevich.Utils.CurrencyUtils;
-  var _textUtils = Suevich.Utils.TextUtils;
-  var _classifier = Suevich.Services.CategoryClassifier;
-
   return {
     create: function(rawActivity) {
       var dateStr = rawActivity.createdOn || rawActivity.updatedOn || new Date().toISOString();
-      var service = _textUtils.clean(rawActivity.title || 'Transação Wise');
-      var currency = _currencyUtils.extractCode(rawActivity.primaryAmount || '');
-      var amount = _currencyUtils.parseValue(rawActivity.primaryAmount || '');
-      var formattedDate = _dateUtils.formatDateBR(dateStr);
+      var service = Suevich.Utils.TextUtils.clean(rawActivity.title || 'Transação Wise');
+      var currency = Suevich.Utils.CurrencyUtils.extractCode(rawActivity.primaryAmount || '');
+      var amount = Suevich.Utils.CurrencyUtils.parseValue(rawActivity.primaryAmount || '');
+      var formattedDate = Suevich.Utils.DateUtils.formatDateBR(dateStr);
       var direction = Suevich.Strategies.DirectionContext.resolve(rawActivity) || Suevich.Domain.TransactionDirection.SAIDA;
-      var category = _classifier.classify(service);
+      var category = Suevich.Services.CategoryClassifier.classify(service);
 
       var safeId = rawActivity.id;
       if (!safeId || safeId === '') {
         safeId = 'MANUAL_' + formattedDate.replace(/\//g, '') + '_' + amount + '_' + currency + '_' + direction;
       }
 
-      return new _Transaction({
+      return new Suevich.Domain.Transaction({
         id: safeId,
         date: formattedDate,
         service: service,

@@ -5,8 +5,6 @@
 Suevich.UI.TriggerManager = (function() {
   'use strict';
 
-  var _logger = Suevich.Core.Logger;
-
   return {
     setupDailyTrigger: function(handlerFunction, hour) {
       this.clearTriggers(handlerFunction);
@@ -17,7 +15,7 @@ Suevich.UI.TriggerManager = (function() {
         .atHour(hour || 4)
         .create();
 
-      _logger.info('TriggerManager: trigger diário configurado para ' + (hour || 4) + 'h');
+      Suevich.Core.Logger.info('TriggerManager: trigger diário configurado para ' + (hour || 4) + 'h');
     },
 
     clearTriggers: function(handlerFunction) {
@@ -27,7 +25,7 @@ Suevich.UI.TriggerManager = (function() {
           ScriptApp.deleteTrigger(trigger);
         }
       });
-      _logger.info('TriggerManager: triggers de "' + handlerFunction + '" removidos');
+      Suevich.Core.Logger.info('TriggerManager: triggers de "' + handlerFunction + '" removidos');
     },
 
     listTriggers: function() {

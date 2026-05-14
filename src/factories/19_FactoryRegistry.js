@@ -6,34 +6,30 @@
 Suevich.Factories.Registry = (function() {
   'use strict';
 
-  var _serviceFactory = Suevich.Factories.ServiceFactory;
-  var _formatterFactory = Suevich.Factories.FormatterFactory;
-  var _transactionFactory = Suevich.Factories.TransactionFactory;
-
   return {
     getService: function(name) {
       switch (name) {
-        case 'sheet': return _serviceFactory.createSheetService();
-        case 'wiseApi': return _serviceFactory.createWiseApiService();
-        case 'classifier': return _serviceFactory.createCategoryClassifier();
+        case 'sheet': return Suevich.Factories.ServiceFactory.createSheetService();
+        case 'wiseApi': return Suevich.Factories.ServiceFactory.createWiseApiService();
+        case 'classifier': return Suevich.Factories.ServiceFactory.createCategoryClassifier();
         default: throw new Error('Serviço desconhecido: ' + name);
       }
     },
 
     getFormatter: function(name) {
       switch (name) {
-        case 'transaction': return _formatterFactory.createTransactionFormatter();
-        case 'sheetRow': return _formatterFactory.createSheetRowFormatter();
+        case 'transaction': return Suevich.Factories.FormatterFactory.createTransactionFormatter();
+        case 'sheetRow': return Suevich.Factories.FormatterFactory.createSheetRowFormatter();
         default: throw new Error('Formatter desconhecido: ' + name);
       }
     },
 
     createTransaction: function(rawData) {
-      return _transactionFactory.create(rawData);
+      return Suevich.Factories.TransactionFactory.create(rawData);
     },
 
     clearServices: function() {
-      _serviceFactory.clearCache();
+      Suevich.Factories.ServiceFactory.clearCache();
     }
   };
 })();

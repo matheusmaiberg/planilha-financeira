@@ -5,9 +5,6 @@
 Suevich.Services.WiseApiService = (function() {
   'use strict';
 
-  var _config = Suevich.Core.Config;
-  var _logger = Suevich.Core.Logger;
-
   return {
     /**
      * Busca atividades paginadas do perfil configurado.
@@ -22,10 +19,10 @@ Suevich.Services.WiseApiService = (function() {
       var maxPages = 100;
       var pageCount = 0;
 
-      _logger.info('WiseApiService: iniciando busca paginada');
+      Suevich.Core.Logger.info('WiseApiService: iniciando busca paginada');
 
       do {
-        var url = 'https://api.transferwise.com/v1/profiles/' + _config.get('PROFILE_ID') + '/activities?limit=100';
+        var url = 'https://api.transferwise.com/v1/profiles/' + Suevich.Core.Config.get('PROFILE_ID') + '/activities?limit=100';
         if (cursor) {
           url += '&cursor=' + encodeURIComponent(cursor);
         }
@@ -33,7 +30,7 @@ Suevich.Services.WiseApiService = (function() {
         var options = {
           method: 'get',
           headers: {
-            'Authorization': 'Bearer ' + _config.get('WISE_API_TOKEN'),
+            'Authorization': 'Bearer ' + Suevich.Core.Config.get('WISE_API_TOKEN'),
             'Content-Type': 'application/json'
           },
           muteHttpExceptions: true
@@ -41,7 +38,7 @@ Suevich.Services.WiseApiService = (function() {
 
         var response = UrlFetchApp.fetch(url, options);
         if (response.getResponseCode() !== 200) {
-          _logger.error('WiseApiService: ' + response.getContentText());
+          Suevich.Core.Logger.error('WiseApiService: ' + response.getContentText());
           break;
         }
 
@@ -50,7 +47,7 @@ Suevich.Services.WiseApiService = (function() {
         if (pageActivities.length === 0) break;
 
         if (seenIds[pageActivities[0].id]) {
-          _logger.warn('WiseApiService: página repetida detectada');
+          Suevich.Core.Logger.warn('WiseApiService: página repetida detectada');
           break;
         }
 
@@ -65,11 +62,11 @@ Suevich.Services.WiseApiService = (function() {
         pageCount++;
 
         if (pageCount % 5 === 0) {
-          _logger.info('WiseApiService: página ' + pageCount + ' processada, total=' + allActivities.length);
+          Suevich.Core.Logger.info('WiseApiService: página ' + pageCount + ' processada, total=' + allActivities.length);
         }
       } while (cursor && allActivities.length < targetLimit && pageCount < maxPages);
 
-      _logger.info('WiseApiService: busca concluída com ' + allActivities.length + ' atividades');
+      Suevich.Core.Logger.info('WiseApiService: busca concluída com ' + allActivities.length + ' atividades');
       return allActivities;
     }
   };
