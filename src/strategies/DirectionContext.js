@@ -8,11 +8,16 @@ Suevich.Strategies = Suevich.Strategies || {};
 Suevich.Strategies.DirectionContext = (function() {
   'use strict';
 
-  var _strategies = [
-    Suevich.Strategies.TypeDirectionStrategy,
-    Suevich.Strategies.TitleDirectionStrategy,
-    Suevich.Strategies.SignalDirectionStrategy
-  ];
+  var _customStrategies = null;
+
+  function _getStrategies() {
+    if (_customStrategies) return _customStrategies;
+    return [
+      Suevich.Strategies.TypeDirectionStrategy,
+      Suevich.Strategies.TitleDirectionStrategy,
+      Suevich.Strategies.SignalDirectionStrategy
+    ];
+  }
 
   return {
     /**
@@ -21,8 +26,10 @@ Suevich.Strategies.DirectionContext = (function() {
      * @returns {string|null}
      */
     resolve: function(activity) {
-      for (var i = 0; i < _strategies.length; i++) {
-        var result = _strategies[i].resolve(activity);
+      var strategies = _getStrategies();
+      for (var i = 0; i < strategies.length; i++) {
+        if (!strategies[i]) continue;
+        var result = strategies[i].resolve(activity);
         if (result) return result;
       }
       return null;
@@ -41,7 +48,7 @@ Suevich.Strategies.DirectionContext = (function() {
           throw new Error('Strategy no índice ' + i + ' não implementa resolve()');
         }
       });
-      _strategies = customStrategies;
+      _customStrategies = customStrategies;
     }
   };
 })();
