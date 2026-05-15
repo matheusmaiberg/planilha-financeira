@@ -44,7 +44,6 @@ Ordem explícita de push dos arquivos. Útil quando há dependências de load-or
 | `projectId` | string | ID do projeto GCP vinculado (para APIs avançadas) |
 | `scriptExtensions` | string[] | Extensões adicionais de script reconhecidas |
 | `htmlExtensions` | string[] | Extensões de HTML reconhecidas (`.html`, `.htm`) |
-| `fileDenyList` | string[] | Padrões glob de arquivos ignorados no push |
 | `skipSubdirectories` | boolean | Se `true`, não faz push de subdiretórios |
 
 ## Exemplo completo
@@ -58,13 +57,30 @@ Ordem explícita de push dos arquivos. Útil quando há dependências de load-or
     "src/core/*.js",
     "src/utils/*.js",
     "src/**/*.js"
-  ],
-  "fileDenyList": [
-    "**/*.test.js",
-    "**/*.spec.js"
   ]
 }
 ```
+
+## Automação: clasp push a cada commit
+
+Um hook `post-commit` está configurado em `.git/hooks/post-commit`.  
+Após **cada commit local**, o `clasp push` roda automaticamente.
+
+### Como funciona
+O hook detecta se o `clasp` está instalado e executa `clasp push` logo após o commit ser criado.
+
+### Desativar temporariamente
+Renomeie o hook:
+```bash
+mv .git/hooks/post-commit .git/hooks/post-commit.disabled
+```
+
+### Reativar
+```bash
+mv .git/hooks/post-commit.disabled .git/hooks/post-commit
+```
+
+> No Windows com Git Bash, o hook roda via `sh` automaticamente.
 
 ## Comandos úteis
 
