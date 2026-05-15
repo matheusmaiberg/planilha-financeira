@@ -10,6 +10,7 @@ Suevich.Domain.TransactionDirection = (function() {
 
   return {
     ENTRADA: 'Entrada',
-    SAIDA: 'Saída'
+    SAIDA: 'Saída',
+    TRANSFERENCIA: 'Transferência'
   };
 })();
