@@ -100,6 +100,27 @@ Suevich.Services.SheetService = (function() {
 
       Suevich.Core.Logger.info('SheetService: ' + newData.length + ' transações adicionadas.');
       return newData.length;
+    },
+
+    /**
+     * Ordena a planilha por data decrescente, depois por direção.
+     * Entrada (0) < Saída (1) < Transferência (2).
+     */
+    sortTransactions: function() {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var lastRow = sheet.getLastRow();
+      var lastCol = sheet.getLastColumn();
+      if (lastRow < 3) return;
+
+      var colMap = _getOrUpdateColumnMap(sheet);
+
+      var range = sheet.getRange(2, 1, lastRow - 1, lastCol);
+      range.sort([
+        { column: colMap.DATA, ascending: false },
+        { column: colMap.TIPO, ascending: true }
+      ]);
+
+      Suevich.Core.Logger.info('SheetService: planilha ordenada por data desc + direção asc');
     }
   };
 })();
