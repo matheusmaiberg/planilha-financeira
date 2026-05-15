@@ -91,9 +91,10 @@ describe('Phase 1 — Unitários Puros', () => {
   });
 
   describe('TransactionDirection', () => {
-    test('tem ENTRADA e SAIDA', () => {
+    test('tem ENTRADA, SAIDA e TRANSFERENCIA', () => {
       assert.strictEqual(TransactionDirection.ENTRADA, 'Entrada');
       assert.strictEqual(TransactionDirection.SAIDA, 'Saída');
+      assert.strictEqual(TransactionDirection.TRANSFERENCIA, 'Transferência');
     });
   });
 
@@ -113,8 +114,14 @@ describe('Phase 1 — Unitários Puros', () => {
     test('DEPOSIT => ENTRADA', () => {
       assert.strictEqual(TypeStrategy.resolve({ type: 'DEPOSIT' }), 'Entrada');
     });
-    test('TRANSFER => SAIDA', () => {
-      assert.strictEqual(TypeStrategy.resolve({ type: 'TRANSFER' }), 'Saída');
+    test('INTERBALANCE => TRANSFERENCIA', () => {
+      assert.strictEqual(TypeStrategy.resolve({ type: 'INTERBALANCE' }), 'Transferência');
+    });
+    test('TRANSFER interno (To EUR) => TRANSFERENCIA', () => {
+      assert.strictEqual(TypeStrategy.resolve({ type: 'TRANSFER', title: 'To <strong>EUR</strong>' }), 'Transferência');
+    });
+    test('TRANSFER externo => null (fallback)', () => {
+      assert.strictEqual(TypeStrategy.resolve({ type: 'TRANSFER' }), null);
     });
     test('tipo desconhecido => null', () => {
       assert.strictEqual(TypeStrategy.resolve({ type: 'UNKNOWN' }), null);
