@@ -1,4 +1,5 @@
 {
+  "$schema": "./schemas/clasp-config.schema.json",
   "scriptId": "1VpB37AflQdpgH713OJiXEKtqfHmt3CuhDT-xf-qRS37NjHxcyZB7wvah",
   "rootDir": "src",
   "fileExtension": "js"

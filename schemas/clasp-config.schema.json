@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/matheusmaiberg/planilha-financeira/schemas/clasp-config.schema.json",
+  "title": "clasp.json Config",
+  "description": "Configuration file for google/clasp — Command Line Apps Script Projects",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path to this JSON schema for IDE autocomplete"
+    },
+    "scriptId": {
+      "type": "string",
+      "description": "Google Apps Script project ID. Found in the editor URL: https://script.google.com/home/projects/{scriptId}/edit"
+    },
+    "rootDir": {
+      "type": "string",
+      "description": "Root directory where local .js/.ts files live. Default: '.'",
+      "default": "."
+    },
+    "fileExtension": {
+      "type": "string",
+      "description": "File extension used locally. clasp pushes as .gs",
+      "enum": ["js", "ts"],
+      "default": "js"
+    },
+    "filePushOrder": {
+      "type": "array",
+      "description": "Explicit push order for files with load-order dependencies",
+      "items": { "type": "string" }
+    },
+    "projectId": {
+      "type": "string",
+      "description": "GCP project ID linked for advanced APIs"
+    },
+    "scriptExtensions": {
+      "type": "array",
+      "description": "Additional script file extensions recognized by clasp",
+      "items": { "type": "string" }
+    },
+    "htmlExtensions": {
+      "type": "array",
+      "description": "HTML file extensions recognized by clasp",
+      "items": { "type": "string" },
+      "default": [".html"]
+    },
+    "fileDenyList": {
+      "type": "array",
+      "description": "Glob patterns of files to ignore during push",
+      "items": { "type": "string" }
+    },
+    "skipSubdirectories": {
+      "type": "boolean",
+      "description": "If true, clasp will not push files from subdirectories",
+      "default": false
+    }
+  },
+  "required": ["scriptId"],
+  "additionalProperties": false
+}

@@ -2,19 +2,22 @@
 
 Arquivo de configuração do [clasp](https://github.com/google/clasp) (Command Line Apps Script Projects).
 
-## Campos principais
+## Schema local (IDE autocomplete)
+
+O `.clasp.json` aponta para um schema JSON local:
 
 ```json
 {
+  "$schema": "./schemas/clasp-config.schema.json",
   "scriptId": "1VpB37AflQdpgH713OJiXEKtqfHmt3CuhDT-xf-qRS37NjHxcyZB7wvah",
   "rootDir": "src",
-  "fileExtension": "js",
-  "filePushOrder": [
-    "src/core/Config.js",
-    "src/core/Logger.js"
-  ]
+  "fileExtension": "js"
 }
 ```
+
+Isso habilita **autocomplete e validação** no VS Code / IntelliJ ao editar o `.clasp.json`.
+
+## Campos principais
 
 ### `scriptId` (string, obrigatório)
 ID do projeto do Google Apps Script. Encontrado na URL do editor:
