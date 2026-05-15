@@ -1,0 +1,23 @@
+{
+  "name": "planilha-financeira",
+  "version": "1.0.0",
+  "description": "Sincronização automática Wise → Google Sheets via Google Apps Script",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:unit": "node --test tests/phase1-unit.test.js",
+    "test:fetch": "node --test tests/fetch-real.test.js",
+    "test:pipeline": "node --test tests/pipeline.test.js",
+    "deploy": "clasp push",
+    "watch": "clasp push --watch",
+    "open": "clasp open",
+    "logs": "clasp logs",
+    "status": "clasp status"
+  },
+  "keywords": ["wise", "google-apps-script", "sheets", "finance"],
+  "author": "Matheus Almeida",
+  "license": "MIT",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
