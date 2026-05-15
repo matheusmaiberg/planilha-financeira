@@ -7,6 +7,7 @@ function onOpen() {
   var builder = Suevich.UI.MenuBuilder.create();
   builder
     .addItem('Sincronizar Wise Agora', 'runManualSync')
+    .addItem('Puxar Todas as Atividades', 'runSyncAll')
     .addSubMenu('Sincronização Histórica', function(sub) {
       sub.addItem('Últimos 30 dias', 'runSync30');
       sub.addItem('Últimos 60 dias', 'runSync60');
@@ -37,6 +38,23 @@ function runManualSync() {
   try {
     var msg = Suevich.Main.SyncPipeline.run();
     ui.alert('Sincronização Concluída', msg, ui.ButtonSet.OK);
+  } catch (error) {
+    ui.alert('Erro', 'Falha na sincronização: ' + error.message, ui.ButtonSet.OK);
+  }
+}
+
+function runSyncAll() {
+  var ui = SpreadsheetApp.getUi();
+  var confirm = ui.alert(
+    'Puxar Todas as Atividades',
+    'Isso pode demorar e importar MUITAS transações. Continuar?',
+    ui.ButtonSet.YES_NO
+  );
+  if (confirm !== ui.Button.YES) return;
+
+  try {
+    var msg = Suevich.Main.SyncPipeline.run('all');
+    ui.alert('Sincronização Completa', msg, ui.ButtonSet.OK);
   } catch (error) {
     ui.alert('Erro', 'Falha na sincronização: ' + error.message, ui.ButtonSet.OK);
   }
