@@ -8,6 +8,7 @@ function onOpen() {
   builder
     .addItem('Sincronizar Wise Agora', 'runManualSync')
     .addItem('Puxar Todas as Atividades', 'runSyncAll')
+    .addItem('Limpar e Reimportar Tudo', 'runForceReimport')
     .addSubMenu('Sincronização Histórica', function(sub) {
       sub.addItem('Últimos 30 dias', 'runSync30');
       sub.addItem('Últimos 60 dias', 'runSync60');
@@ -72,4 +73,23 @@ function clearAllTriggers() {
 
 function syncAllWiseAccounts() {
   return Suevich.Main.SyncPipeline.run();
+}
+
+function runForceReimport() {
+  var ui = SpreadsheetApp.getUi();
+  var confirm = ui.alert(
+    'Limpar e Reimportar',
+    'Isso vai APAGAR todos os dados da planilha e reimportar tudo do Wise. Continuar?',
+    ui.ButtonSet.YES_NO
+  );
+  if (confirm !== ui.Button.YES) return;
+
+  try {
+    var sheetService = Suevich.Factories.Registry.getService('sheet');
+    sheetService.clearData();
+    var msg = Suevich.Main.SyncPipeline.run('all');
+    ui.alert('Reimportação Concluída', msg, ui.ButtonSet.OK);
+  } catch (error) {
+    ui.alert('Erro', 'Falha na reimportação: ' + error.message, ui.ButtonSet.OK);
+  }
 }

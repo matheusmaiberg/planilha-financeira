@@ -25,7 +25,10 @@ Suevich.Main.SyncPipeline = (function() {
 
       var txFormatter = Suevich.Factories.Registry.getFormatter('transaction');
       var transactions = isAll ? rawData.map(function(a) { return Suevich.Factories.Registry.createTransaction(a); }) : txFormatter.formatMany(rawData, syncDays);
-      Suevich.Core.Logger.info('SyncPipeline: ' + transactions.length + ' transações válidas no período');
+      Suevich.Core.Logger.info('SyncPipeline: ' + rawData.length + ' brutas → ' + transactions.length + ' válidas após filtro de data');
+      if (transactions.length === 0) {
+        return 'Nenhuma transação encontrada no período. A planilha já pode estar atualizada.';
+      }
 
       var sheetService = Suevich.Factories.Registry.getService('sheet');
       var added = sheetService.appendTransactions(transactions);
