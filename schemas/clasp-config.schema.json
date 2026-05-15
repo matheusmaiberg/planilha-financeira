@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/matheusmaiberg/planilha-financeira/schemas/clasp-config.schema.json",
   "title": "clasp.json Config",
-  "description": "Configuration file for google/clasp — Command Line Apps Script Projects",
+  "description": "Configuration file for google/clasp — Command Line Apps Script Projects. See: https://github.com/google/clasp/blob/master/docs/config-files.md",
   "type": "object",
   "properties": {
     "$schema": {
@@ -11,47 +11,50 @@
     },
     "scriptId": {
       "type": "string",
-      "description": "Google Apps Script project ID. Found in the editor URL: https://script.google.com/home/projects/{scriptId}/edit"
+      "description": "Google Apps Script project ID. Found in the editor URL or File > Project properties > Script ID"
     },
     "rootDir": {
       "type": "string",
-      "description": "Root directory where local .js/.ts files live. Default: '.'",
+      "description": "Local directory where clasp stores project files. Default: current directory",
       "default": "."
-    },
-    "fileExtension": {
-      "type": "string",
-      "description": "File extension used locally. clasp pushes as .gs",
-      "enum": ["js", "ts"],
-      "default": "js"
-    },
-    "filePushOrder": {
-      "type": "array",
-      "description": "Explicit push order for files with load-order dependencies",
-      "items": { "type": "string" }
     },
     "projectId": {
       "type": "string",
-      "description": "GCP project ID linked for advanced APIs"
+      "description": "Google Cloud Platform project ID for advanced APIs"
+    },
+    "fileExtension": {
+      "type": "string",
+      "description": "[DEPRECATED v3] Use scriptExtensions instead. Local file extension for script files.",
+      "enum": ["js", "ts", "gs"]
     },
     "scriptExtensions": {
-      "type": "array",
-      "description": "Additional script file extensions recognized by clasp",
-      "items": { "type": "string" }
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ],
+      "description": "File extensions for local script files. First extension is used when pulling. Default: ['.js', '.gs']",
+      "default": [".js", ".gs"]
     },
     "htmlExtensions": {
-      "type": "array",
-      "description": "HTML file extensions recognized by clasp",
-      "items": { "type": "string" },
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ],
+      "description": "File extensions for local HTML files. First extension is used when pulling. Default: ['.html']",
       "default": [".html"]
     },
-    "fileDenyList": {
+    "filePushOrder": {
       "type": "array",
-      "description": "Glob patterns of files to ignore during push",
-      "items": { "type": "string" }
+      "description": "Files pushed first (for load-order dependencies). Paths relative to .clasp.json (include rootDir if set). Other files pushed after, sorted by name.",
+      "items": { "type": "string" },
+      "examples": [
+        ["src/core/Config.js", "src/core/Logger.js"],
+        ["src/core/*.js", "src/**/*.js"]
+      ]
     },
     "skipSubdirectories": {
       "type": "boolean",
-      "description": "If true, clasp will not push files from subdirectories",
+      "description": "Force clasp to ignore subdirectories without needing a .claspignore file. Default: false",
       "default": false
     }
   },
