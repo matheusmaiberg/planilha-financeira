@@ -27,7 +27,8 @@ Suevich.Utils.DateUtils = (function() {
      */
     getCutoffDate: function(days) {
       var d = new Date();
-      d.setDate(d.getDate() - days);
+      d.setUTCDate(d.getUTCDate() - days);
+      d.setUTCHours(0, 0, 0, 0);
       return d;
     }
   };
