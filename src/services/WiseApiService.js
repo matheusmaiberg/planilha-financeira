@@ -76,6 +76,68 @@ Suevich.Services.WiseApiService = (function() {
 
       Suevich.Core.Logger.info('WiseApiService: busca concluída com ' + allActivities.length + ' atividades');
       return allActivities;
+    },
+
+    /**
+     * Busca TODO o histórico de atividades sem filtro de data.
+     * @returns {Array} Todas as atividades disponíveis
+     */
+    getActivitiesAll: function() {
+      var allActivities = [];
+      var seenIds = {};
+      var cursor = null;
+      var maxPages = 100;
+      var pageCount = 0;
+
+      Suevich.Core.Logger.info('WiseApiService: busca COMPLETA de todas as atividades');
+
+      do {
+        var url = 'https://api.transferwise.com/v1/profiles/' + Suevich.Core.Config.get('PROFILE_ID') + '/activities?size=100';
+        if (cursor) {
+          url += '&cursor=' + encodeURIComponent(cursor);
+        }
+
+        var options = {
+          method: 'get',
+          headers: {
+            'Authorization': 'Bearer ' + Suevich.Core.Config.get('WISE_API_TOKEN'),
+            'Content-Type': 'application/json'
+          },
+          muteHttpExceptions: true
+        };
+
+        var response = UrlFetchApp.fetch(url, options);
+        if (response.getResponseCode() !== 200) {
+          Suevich.Core.Logger.error('WiseApiService: ' + response.getContentText());
+          break;
+        }
+
+        var data = JSON.parse(response.getContentText());
+        var pageActivities = data.activities || [];
+        if (pageActivities.length === 0) break;
+
+        if (seenIds[pageActivities[0].id]) {
+          Suevich.Core.Logger.warn('WiseApiService: página repetida detectada');
+          break;
+        }
+
+        pageActivities.forEach(function(a) {
+          if (!seenIds[a.id]) {
+            seenIds[a.id] = true;
+            allActivities.push(a);
+          }
+        });
+
+        cursor = data.cursor;
+        pageCount++;
+
+        if (pageCount % 5 === 0) {
+          Suevich.Core.Logger.info('WiseApiService: página ' + pageCount + ' processada, total=' + allActivities.length);
+        }
+      } while (cursor && pageCount < maxPages);
+
+      Suevich.Core.Logger.info('WiseApiService: busca completa concluída com ' + allActivities.length + ' atividades');
+      return allActivities;
     }
   };
 })();
