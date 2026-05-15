@@ -60,14 +60,19 @@ Suevich.Services.SheetService = (function() {
 
       var newData = [];
       var loteIds = {};
+      var duplicates = 0;
 
       transactions.forEach(function(tx) {
         var id = String(tx.getId()).trim();
         if (existingIds.indexOf(id) === -1 && !loteIds[id]) {
           loteIds[id] = true;
           newData.push(tx);
+        } else {
+          duplicates++;
         }
       });
+
+      Suevich.Core.Logger.info('SheetService: ' + transactions.length + ' recebidas | ' + existingIds.length + ' IDs existentes | ' + duplicates + ' duplicatas | ' + newData.length + ' novas');
 
       if (newData.length === 0) return 0;
 
@@ -106,6 +111,18 @@ Suevich.Services.SheetService = (function() {
      * Ordena a planilha por data decrescente, depois por direção.
      * Entrada (0) < Saída (1) < Transferência (2).
      */
+    /**
+     * Remove todas as linhas de dados mantendo apenas o header.
+     */
+    clearData: function() {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var lastRow = sheet.getLastRow();
+      if (lastRow > 1) {
+        sheet.deleteRows(2, lastRow - 1);
+        Suevich.Core.Logger.info('SheetService: planilha limpa, ' + (lastRow - 1) + ' linhas removidas');
+      }
+    },
+
     sortTransactions: function() {
       var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
       var lastRow = sheet.getLastRow();
